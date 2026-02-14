@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import select
 from database.db import db
 import bcrypt
-
+import bin.scanning as s
 
 app = Flask(__name__)
 
@@ -17,7 +17,7 @@ from database.models import User, Scan
 
 ## Create the tables
 with app.app_context():
-   # db.drop_all()       # uncomment to reset the
+   # db.drop_all()       # uncomment to reset the db
     db.create_all()
 
 
@@ -59,10 +59,20 @@ def register():
     return render_template("register.html")
 
 
-@app.route("/scan")
+@app.route("/scan", methods=["GET", "POST"])
 def scan():
+
+    if request.method == "POST":
+
+        url = request.form.get('url')
+        s.cookie_before_concent(url)
+        #s.cookie_after_concent(url)
+
     return render_template("scan.html")
 
+@app.route("/results")
+def results():
+    return render_template("results.html")
 
 ## Run the App
 if __name__ == "__main__":
