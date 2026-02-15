@@ -65,8 +65,9 @@ def scan():
     if request.method == "POST":
 
         url = request.form.get('url')
-        s.cookie_before_concent(url)
+        cookies = s.cookie_before_concent(url)
         #s.cookie_after_concent(url)
+        return render_template("results.html", cookies=cookies)
 
     return render_template("scan.html")
 

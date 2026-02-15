@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright
 import lib.cookie_names as cn
+from datetime import datetime
 
 def cookie_before_concent(url):
     with sync_playwright() as pwr:
@@ -10,16 +11,21 @@ def cookie_before_concent(url):
         page.goto(url, wait_until="load")
         page.wait_for_timeout(5000)
 
-        cookies = context.cookies()
+        cookie = context.cookies()
+
+        bad_cookies = {}
 
         print("\nCookies before consent:\n")
-        for c in cookies:
+        for c in cookie:
              for n in cn.COOKIE_NAMES:
                 if c["name"].startswith(n):
-                    print(c["name"], c["expires"], c["domain"])
+                    print(c["name"], c["expires"], c["domain"], cn.COOKIE_NAMES[n])
+                    expires = datetime.fromtimestamp(c["expires"]) - datetime.now()
+
+                    bad_cookies[cn.COOKIE_NAMES[n]] = expires.days
 
         browser.close()
-        #return cookie
+        return bad_cookies
 
 
 def cookie_after_concent(url):
@@ -37,10 +43,10 @@ def cookie_after_concent(url):
             pass
 
         page.wait_for_timeout(3000)
-        cookies = context.cookies()
+        cookie = context.cookies()
 
         print("\nCookies before consent:\n")
-        for c in cookies:
+        for c in cookie:
             print(c["name"], c["expires"], c["domain"])
         
         browser.close()

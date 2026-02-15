@@ -7,22 +7,20 @@
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
 			<div class="card">
-				<div class="card-body">
-					<form method="post">
-						<div class="input-group form-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
-							</div>
-							<input type="text" name="email" class="form-control" placeholder="email">
-						</div>
-						<div class="input-group form-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
-							</div>
-							<textarea type="text" class="form-control"></textarea>
-						</div>
-					</form>
+				{% if not cookies %}
+				<div class="input-group form-group">
+					<textarea type="text" class="form-control">No bad cookies found</textarea>
 				</div>
+				{% else %}
+				{% for c in cookies %}
+				<div class="input-group form-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
+					</div>
+					<textarea type="text" class="form-control">{{c}}. Expires in {{cookies[c]}} days.</textarea>
+				</div>
+				{% endfor %}
+				{% endif %}
 			</div>
 		</div>
 	</div>
