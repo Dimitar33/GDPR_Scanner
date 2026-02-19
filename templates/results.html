@@ -7,6 +7,14 @@
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
 			<div class="card">
+				{% if not privacy %}
+				<div class="input-group form-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
+					</div>
+					<textarea type="text" class="form-control">No privacy policy found!</textarea>
+				</div>
+				{% endif %}
 				{% if not cookies %}
 				<div class="input-group form-group">
 					<textarea type="text" class="form-control">No bad cookies found</textarea>
