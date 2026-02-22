@@ -1,6 +1,6 @@
 COOKIE_NAMES = {
-    "_ga": "Google Analitics long-term tracking of user activity",
-    "_gid": "Google Analitics short-term tracking of user activity",
+    "_ga": "Google Analitics long-term tracking of user activity.",
+    "_gid": "Google Analitics short-term tracking of user activity.",
     "_gcl*": "Google Analitics, tracks ad clicks. Directly linked to advertising and profiling.",
     "_dc_gtm": "Google Analitics marketing and cross-site tracking.",
     "_gac": "Google Analitics. Stores Google Ads data when a user clicks an ad.",
@@ -19,6 +19,6 @@ COOKIE_NAMES = {
     "personalization_id": "X tracking. Ad personalisation and tracking. Used for behavioural advertising.",
     "_hjSession": "Hotjar tracking. Very detailed behavioural monitoring, mouse movements, clicks.",
     "SRM_B": "Microsoft tracking. Ad targeting and user profiling.",
-    "guest_id": "X tracking. Behaviour analysis and ad targeting",
+    "guest_id": "X tracking. Behaviour analysis and ad targeting.",
     "datr": "Facebook tracking. Strong behavioural and device profiling. Identify users even if they are not logged in.",
 }

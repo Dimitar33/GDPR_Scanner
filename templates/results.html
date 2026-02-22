@@ -2,30 +2,50 @@
 
 <title>Login Page</title>
 </head>
-
+<!-- class="d-flex justify-content-center h-100" -->
 <body>
 	<div class="container">
-		<div class="d-flex justify-content-center h-100">
-			<div class="card">
-				{% if not privacy %}
+		<div style="display: flex; justify-content: space-between;">
+			{% if not privacy %}
+			<div style="height: auto;" class="card">
 				<div class="input-group form-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
 					</div>
 					<textarea type="text" class="form-control">No privacy policy found!</textarea>
 				</div>
-				{% endif %}
-				{% if not cookies %}
+			</div>
+			{% endif %}
+			<div style="height: auto;" class="card">
+				<h5 style="color: red;">Cookies loaded before consent!</h5>
+				{% if not cookies_b_c %}
 				<div class="input-group form-group">
 					<textarea type="text" class="form-control">No bad cookies found</textarea>
 				</div>
 				{% else %}
-				{% for c in cookies %}
+				{% for c in cookies_b_c %}
 				<div class="input-group form-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
 					</div>
-					<textarea type="text" class="form-control">{{c}}. Expires in {{cookies[c]}} days.</textarea>
+					<textarea type="text" class="form-control">{{c}} Expires in {{cookies_b_c[c]}} days.</textarea>
+				</div>
+				{% endfor %}
+				{% endif %}
+			</div>
+			<div style="height: auto;" class="card">
+				<h5 style="color: orange;">Pre checked cookies</h5>
+				{% if not cookies_a_c %}
+				<div class="input-group form-group">
+					<textarea type="text" class="form-control">No bad cookies found</textarea>
+				</div>
+				{% else %}
+				{% for c in cookies_a_c %}
+				<div class="input-group form-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
+					</div>
+					<textarea type="text" class="form-control">{{c}} Expires in {{cookies_a_c[c]}} days.</textarea>
 				</div>
 				{% endfor %}
 				{% endif %}
