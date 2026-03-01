@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import select
 from database.db import db
 import bcrypt
+import json
 import bin.scanning as s
+from flask_login import login_user, current_user, LoginManager, login_required, logout_user
 
 app = Flask(__name__)
 
@@ -17,9 +19,16 @@ from database.models import User, Scan
 
 ## Create the tables
 with app.app_context():
-   # db.drop_all()       # uncomment to reset the db
+    #db.drop_all()       # uncomment to reset the db
     db.create_all()
 
+# Connect the login manager
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.get(User, user_id)
 
 ## Routes
 @app.route("/", methods=["GET", "POST"])
@@ -30,9 +39,19 @@ def login():
         user = db.session.execute(select(User).where(User.email == request.form.get("email"))).scalar_one_or_none()
 
         if user and bcrypt.checkpw(request.form.get("password").encode('utf-8'), user.password):
-            return redirect('scan')
+            login_user(user)
+            print(user, current_user)
+            return redirect(url_for('scan'))
         
     return render_template('index.html')
+
+@app.route("/logout")
+@login_required
+def logout():
+
+    logout_user()
+
+    return redirect(url_for("login"))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -65,8 +84,28 @@ def scan():
     if request.method == "POST":
 
         url = request.form.get('url')
+
+        if not url:
+            return render_template("scan.html")
+
         cookies = s.cookie_before_concent(url)
-       # s.cookie_after_concent(url)
+
+        # gen AI
+        scan_result = {
+            "cookies_b_c": cookies[0],
+            "cookies_b_c": cookies[1],
+            "privacy_policy": cookies[2]
+        }
+        
+        new_scan = Scan(
+            user_id = current_user.id,
+            url = url,
+            result = json.dumps(scan_result)  # gen AI
+        )
+
+        db.session.add(new_scan)
+        db.session.commit()
+
         return render_template("results.html", cookies_b_c=cookies[0], cookies_a_c=cookies[1], privacy=cookies[2])
 
     return render_template("scan.html")
@@ -74,6 +113,17 @@ def scan():
 @app.route("/results")
 def results():
     return render_template("results.html")
+
+@app.route("/history")
+@login_required
+def hostory():
+
+    scans = db.session.execute(select(Scan).where(current_user.id == Scan.user_id)).scalars().all()
+
+    print(current_user.id)
+    print(scans)
+
+    return render_template("history.html", scans=scans)
 
 ## Run the App
 if __name__ == "__main__":

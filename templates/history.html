@@ -1,0 +1,32 @@
+{% include "header.html" %}
+{% include "navbar.html" %}
+
+<title>History</title>
+</head>
+<!-- class="d-flex justify-content-center h-100" -->
+<body>
+	<div class="container">
+		<div style="display: flex; justify-content: space-between;">
+			<div style="height: auto;" class="card">
+				<h5 style="color: red;">Scan history</h5>
+				{% if not scans %}
+				<div class="input-group form-group">
+					<textarea type="text" class="form-control">No scan history found</textarea>
+				</div>
+				{% else %}
+				{% for s in scans %}
+				<div class="input-group form-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
+					</div>
+					<textarea type="text" class="form-control">{{s.url}}</textarea>
+				</div>
+				{% endfor %}
+				{% endif %}
+			</div>
+			
+		</div>
+	</div>
+</body>
+
+</html>
