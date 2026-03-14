@@ -1,3 +1,3 @@
 CONSENT_BUTTON_TEXT = [
-    "accept", "accept all", "consent", "agree"
+    "accept", "accept all", "consent", "agree", "allow analytics"
 ]

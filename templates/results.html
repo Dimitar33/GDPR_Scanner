@@ -6,52 +6,67 @@
 <!-- class="d-flex justify-content-center h-100" -->
 <body>
 	<div class="container">
-		<div style="display: flex; justify-content: space-between;">
+		<table class="table caption-top">
 			{% if not privacy %}
-			<div style="height: auto;" class="card">
-				<div class="input-group form-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
-					</div>
-					<textarea type="text" class="form-control">No privacy policy found!</textarea>
+			<thead>
+				<tr>
+					<th scope="col" style="color: orange; text-align: center;">No privacy policy</th>
+				</tr>
+			</thead>
+			{% endif %}
+		</table>
+		<table class="table caption-top">
+			{% if cookies_b_c %}
+			<thead>
+				<tr>
+					<th scope="col" style="color: red;">Cookies loaded without consent</th>
+					<th scope="col">Days stored</th>
+					<th scope="col">Severity</th>
+				</tr>
+			</thead>
+			{% for c in cookies_b_c %}
+			<tbody>
+				<tr>
+					<td>{{ c }}</td>
+					<td>{{ cookies_b_c[c] }}</td>
+					<td>6</td>
+				</tr>
+			</tbody>
+			{% endfor %}	
+			{% else %}
+			<div class="container">
+				<div style="display: flex; justify-content: center;">
+					<h2 style="color: antiquewhite;">This site looks GDPR compient!</h2>
 				</div>
 			</div>
 			{% endif %}
-			<div style="height: auto;" class="card">
-				<h5 style="color: red;">Cookies loaded before consent!</h5>
-				{% if not cookies_b_c %}
-				<div class="input-group form-group">
-					<textarea type="text" class="form-control">No bad cookies found</textarea>
+		</table>
+		<table class="table caption-top">
+			{% if cookies_a_c %}
+			<thead>
+				<tr>
+					<th scope="col" style="color: orange;">Prechecked cookies</th>
+					<th scope="col">Days stored</th>
+					<th scope="col">Severity</th>
+				</tr>
+			</thead>
+			{% for c in cookies_a_c %}
+			<tbody>
+				<tr>
+					<td>{{ c }}</td>
+					<td>{{ cookies_a_c[c] }}</td>
+					<td>6</td>
+				</tr>
+			</tbody>
+			{% endfor %}	
+			{% else %}
+			<div class="container">
+				<div style="display: flex; justify-content: center;">
+					<h2 style="color: antiquewhite;">This site looks GDPR compient!</h2>
 				</div>
-				{% else %}
-				{% for c in cookies_b_c %}
-				<div class="input-group form-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
-					</div>
-					<textarea type="text" class="form-control">{{c}} Expires in {{cookies_b_c[c]}} days.</textarea>
-				</div>
-				{% endfor %}
-				{% endif %}
 			</div>
-			<div style="height: auto;" class="card">
-				<h5 style="color: orange;">Pre checked cookies</h5>
-				{% if not cookies_a_c %}
-				<div class="input-group form-group">
-					<textarea type="text" class="form-control">No bad cookies found</textarea>
-				</div>
-				{% else %}
-				{% for c in cookies_a_c %}
-				<div class="input-group form-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
-					</div>
-					<textarea type="text" class="form-control">{{c}} Expires in {{cookies_a_c[c]}} days.</textarea>
-				</div>
-				{% endfor %}
-				{% endif %}
-			</div>
-		</div>
+			{% endif %}
+		</table>
 	</div>
 </body>
 

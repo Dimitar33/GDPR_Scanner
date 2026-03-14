@@ -93,7 +93,7 @@ def scan():
         # gen AI
         scan_result = {
             "cookies_b_c": cookies[0],
-            "cookies_b_c": cookies[1],
+            "cookies_a_c": cookies[1],
             "privacy_policy": cookies[2]
         }
         
@@ -110,20 +110,35 @@ def scan():
 
     return render_template("scan.html")
 
-@app.route("/results")
-def results():
-    return render_template("results.html")
+@app.route("/results/<int:scan_id>")
+def results(scan_id):
+
+    if not scan_id:
+        return render_template("results.html")
+
+    scan = db.session.execute(select(Scan).where(Scan.id == scan_id)).scalar_one_or_none()
+    scan_results = json.loads(scan.result)
+
+    return render_template("results.html", cookies_b_c=scan_results["cookies_b_c"], cookies_a_c=scan_results["cookies_a_c"], privacy=scan_results["privacy_policy"])
 
 @app.route("/history")
 @login_required
-def hostory():
+def history():
 
     scans = db.session.execute(select(Scan).where(current_user.id == Scan.user_id)).scalars().all()
 
-    print(current_user.id)
-    print(scans)
-
     return render_template("history.html", scans=scans)
+
+@app.route("/delete/<int:scan_id>")
+@login_required
+def delete(scan_id):
+
+    scan = db.session.execute(select(Scan).where(Scan.id == scan_id)).scalar_one_or_none()
+
+    db.session.delete(scan)
+    db.session.commit()
+
+    return redirect(url_for("history"))
 
 ## Run the App
 if __name__ == "__main__":

@@ -4,28 +4,38 @@
 <title>History</title>
 </head>
 <!-- class="d-flex justify-content-center h-100" -->
+
 <body>
 	<div class="container">
-		<div style="display: flex; justify-content: space-between;">
-			<div style="height: auto;" class="card">
-				<h5 style="color: red;">Scan history</h5>
-				{% if not scans %}
-				<div class="input-group form-group">
-					<textarea type="text" class="form-control">No scan history found</textarea>
+		<table class="table caption-top">
+			{% if scans %}
+			<thead>
+				<tr>
+					<th scope="col">Url</th>
+					<th scope="col">Date</th>
+					<th scope="col">Actions</th>
+				</tr>
+			</thead>
+			{% for s in scans %}
+			<tbody>
+				<tr>
+					<td>{{ s.url | truncate(40)}}</td>
+					<td>{{ s.scan_date.strftime("%Y-%m-%d %H:%M") }}</td>
+					<td>
+						<a href="/results/{{s.id}}" class="btn btn-primary btn-sm">Details</a> 
+						<a href="/delete/{{s.id}}" class="btn btn-danger btn-sm">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+			{% endfor %}	
+			{% else %}
+			<div class="container">
+				<div style="display: flex; justify-content: center;">
+					<h2 style="color: antiquewhite;">There is no scan histoy yet. Scan a website first.</h2>
 				</div>
-				{% else %}
-				{% for s in scans %}
-				<div class="input-group form-group">
-					<div class="input-group-prepend">
-						<span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
-					</div>
-					<textarea type="text" class="form-control">{{s.url}}</textarea>
-				</div>
-				{% endfor %}
-				{% endif %}
 			</div>
-			
-		</div>
+			{% endif %}
+		</table>
 	</div>
 </body>
 
