@@ -62,3 +62,15 @@ td {
     font-weight: 500;
     color: rgba(255, 255, 255, 0.7);
 }
+
+.cross {
+    color: red;
+}
+
+.check {
+    color: green;
+}
+
+a {
+    color:  rgba(255, 255, 255, 0.7);
+}

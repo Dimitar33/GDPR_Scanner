@@ -4,13 +4,14 @@
 <title>Results</title>
 </head>
 <!-- class="d-flex justify-content-center h-100" -->
+
 <body>
 	<div class="container">
 		<table class="table caption-top">
 			{% if not privacy %}
 			<thead>
 				<tr>
-					<th scope="col" style="color: orange; text-align: center;">No privacy policy</th>
+					<th scope="col" style="color: orange; text-align: center;">No privacy policy found!</th>
 				</tr>
 			</thead>
 			{% endif %}
@@ -32,13 +33,14 @@
 					<td>6</td>
 				</tr>
 			</tbody>
-			{% endfor %}	
+			{% endfor %}
 			{% else %}
-			<div class="container">
-				<div style="display: flex; justify-content: center;">
-					<h2 style="color: antiquewhite;">This site looks GDPR compient!</h2>
-				</div>
-			</div>
+			<thead>
+				<tr>
+					<th scope="col" style="color: greenyellow; text-align: center;">No cookies loaded without consent
+						detected.</th>
+				</tr>
+			</thead>
 			{% endif %}
 		</table>
 		<table class="table caption-top">
@@ -58,14 +60,83 @@
 					<td>6</td>
 				</tr>
 			</tbody>
-			{% endfor %}	
+			{% endfor %}
 			{% else %}
-			<div class="container">
-				<div style="display: flex; justify-content: center;">
-					<h2 style="color: antiquewhite;">This site looks GDPR compient!</h2>
-				</div>
-			</div>
+			<thead>
+				<tr>
+					<th scope="col" style="color: greenyellow; text-align: center;">No prechecked cookies detected.</th>
+				</tr>
+			</thead>
 			{% endif %}
+		</table>
+		<table class="table caption-top">
+			<thead>
+				<tr>
+					<th scope="col">Security header</th>
+					<th scope="col">Description</th>
+					<th scope="col">Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Referrer-Policy</td>
+					<td>Controls how much user information is leaked when navigating to other sites.</td>
+					<td>{% if "referrer-policy" in security_headers %} <span class="check">&#10004</span>
+						{% else %} <span class="cross">&#10006</span>
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td>Permissions-Policy</td>
+					<td>Allows you to enable or disable browser features, such as camera, microphone, or geolocation, to
+						improve privacy.</td>
+					<td>{% if "permissions-policy" in security_headers %} <span class="check">&#10004</span>
+						{% else %} <span class="cross">&#10006</span>
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td>Cache-Control</td>
+					<td>Ensures that sensitive information is not stored in browser or intermediate caches.</td>
+					<td>{% if "cache-control" in security_headers %} <span class="check">&#10004</span>
+						{% else %} <span class="cross">&#10006</span>
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td>Strict-Transport-Security</td>
+					<td>Forces the browser to connect only via HTTPS.</td>
+					<td>{% if "strict-transport-security" in security_headers %} <span class="check">&#10004</span>
+						{% else %} <span class="cross">&#10006</span>
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td>Content-Security-Policy</td>
+					<td>Prevents XSS attacks by controlling what scripts can load.</td>
+					<td>{% if "content-security-policy" in security_headers %} <span class="check">&#10004</span>
+						{% else %} <span class="cross">&#10006</span>
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td>X-Frame-Options</td>
+					<td>Protects against clickjacking.</td>
+					<td>{% if "x-frame-options" in security_headers %} <span class="check">&#10004</span>
+						{% else %} <span class="cross">&#10006</span>
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td>X-Content-Type-Options</td>
+					<td>Prevents MIME-type sniffing attacks.</td>
+					<td>{% if "x-content-type-options" in security_headers %} <span class="check">&#10004</span>
+						{% else %} <span class="cross">&#10006</span>
+						{% endif %}
+					</td>
+				</tr>
+
+			</tbody>
 		</table>
 	</div>
 </body>

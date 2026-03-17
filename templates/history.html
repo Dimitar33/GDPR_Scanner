@@ -19,7 +19,7 @@
 			{% for s in scans %}
 			<tbody>
 				<tr>
-					<td>{{ s.url | truncate(40)}}</td>
+					<td><a target="_blank" href={{s.url}}>{{ s.url | truncate(40)}}</a></td>
 					<td>{{ s.scan_date.strftime("%Y-%m-%d %H:%M") }}</td>
 					<td>
 						<a href="/results/{{s.id}}" class="btn btn-primary btn-sm">Details</a> 

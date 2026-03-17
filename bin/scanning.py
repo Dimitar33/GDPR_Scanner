@@ -3,18 +3,28 @@ from datetime import datetime
 import lib.cookie_names as cn
 import lib.consent_button_text as cbt
 import lib.privacy_policy as pp
+import lib.security_headers as sh
 
-def cookie_before_concent(url):
+def scanning(url):
     with sync_playwright() as pwr:
         browser = pwr.chromium.launch(headless=False)
         context = browser.new_context()
         page = context.new_page()
 
-        page.goto(url, wait_until="load")
+        response = page.goto(url, wait_until="load")
         page.wait_for_timeout(3000)
 
-        links = page.locator("a").all()
+        headers = response.headers
 
+        security_headers = {}
+
+        for h in headers:
+            for s in sh.SECURITY_HEADERS:
+                if h.lower() == s:
+                    security_headers[s] = sh.SECURITY_HEADERS[s]
+
+        links = page.locator("a").all()
+        
         privacy = ""
 
         for link in links:
@@ -59,7 +69,7 @@ def cookie_before_concent(url):
                     
         browser.close()
 
-        return (cookies_b_c, cookies_a_c, privacy)
+        return (cookies_b_c, cookies_a_c, privacy, security_headers)
 
 
 

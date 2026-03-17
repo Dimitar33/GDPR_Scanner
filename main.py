@@ -88,13 +88,14 @@ def scan():
         if not url:
             return render_template("scan.html")
 
-        cookies = s.cookie_before_concent(url)
+        cookies = s.scanning(url)
 
         # gen AI
         scan_result = {
             "cookies_b_c": cookies[0],
             "cookies_a_c": cookies[1],
-            "privacy_policy": cookies[2]
+            "privacy_policy": cookies[2],
+            "security_headers": cookies[3]
         }
         
         new_scan = Scan(
@@ -105,8 +106,8 @@ def scan():
 
         db.session.add(new_scan)
         db.session.commit()
-
-        return render_template("results.html", cookies_b_c=cookies[0], cookies_a_c=cookies[1], privacy=cookies[2])
+        print(cookies[3])
+        return render_template("results.html", cookies_b_c=cookies[0], cookies_a_c=cookies[1], privacy=cookies[2], security_headers = cookies[3])
 
     return render_template("scan.html")
 
@@ -119,13 +120,17 @@ def results(scan_id):
     scan = db.session.execute(select(Scan).where(Scan.id == scan_id)).scalar_one_or_none()
     scan_results = json.loads(scan.result)
 
-    return render_template("results.html", cookies_b_c=scan_results["cookies_b_c"], cookies_a_c=scan_results["cookies_a_c"], privacy=scan_results["privacy_policy"])
+    return render_template("results.html", 
+                           cookies_b_c=scan_results["cookies_b_c"], 
+                           cookies_a_c=scan_results["cookies_a_c"], 
+                           privacy=scan_results["privacy_policy"], 
+                           security_headers=scan_results["security_headers"])
 
 @app.route("/history")
 @login_required
 def history():
 
-    scans = db.session.execute(select(Scan).where(current_user.id == Scan.user_id)).scalars().all()
+    scans = db.session.execute(select(Scan).where(current_user.id == Scan.user_id)).scalars().all().__reversed__()
 
     return render_template("history.html", scans=scans)
 
