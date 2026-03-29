@@ -11,6 +11,10 @@ height: 100vh;
 font-family: 'Numans', sans-serif;
 }
 
+.register {
+    color: #FFC312;
+}
+
 .container{
 min-height: 100vh;
 align-content: center;
