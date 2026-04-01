@@ -32,7 +32,7 @@ def load_user(user_id):
     return db.session.get(User, user_id)
 
 
-# ## Routes
+## Routes
 app.register_blueprint(userRoutes)
 
 
@@ -47,15 +47,20 @@ def scan():
             return render_template("scan.html")
 
         cookies = s.scanning(url)
+        cookies_a_r = s.scanAfterReject(url)
 
         # gen AI
         scan_result = {
             "cookies_b_c": cookies[0],
             "cookies_a_c": cookies[1],
             "privacy_policy": cookies[2],
-            "security_headers": cookies[3]
+            "security_headers": cookies[3],
+            "cookies_a_r": cookies_a_r[0],
+            "reject_button": cookies_a_r[1],
         }
         
+        print(cookies_a_r[1])
+
         new_scan = Scan(
             user_id = current_user.id,
             url = url,
@@ -64,8 +69,15 @@ def scan():
 
         db.session.add(new_scan)
         db.session.commit()
-        print(cookies[3])
-        return render_template("results.html", cookies_b_c=cookies[0], cookies_a_c=cookies[1], privacy=cookies[2], security_headers = cookies[3])
+
+        return render_template("results.html", 
+                               cookies_b_c=cookies[0], 
+                               cookies_a_c=cookies[1], 
+                               privacy=cookies[2], 
+                               security_headers = cookies[3], 
+                               cookies_a_r=cookies_a_r[0],
+                               reject_button=cookies_a_r[1]
+                               )
 
     return render_template("scan.html")
 
@@ -82,7 +94,9 @@ def results(scan_id):
                            cookies_b_c=scan_results["cookies_b_c"], 
                            cookies_a_c=scan_results["cookies_a_c"], 
                            privacy=scan_results["privacy_policy"], 
-                           security_headers=scan_results["security_headers"])
+                           security_headers=scan_results["security_headers"],
+                           cookies_a_r=scan_results["cookies_a_r"],
+                           reject_button=scan_results["reject_button"])
 
 @app.route("/history")
 @login_required

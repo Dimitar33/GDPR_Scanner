@@ -44,6 +44,32 @@
 			{% endif %}
 		</table>
 		<table class="table caption-top">
+			{% if cookies_a_r %}
+			<thead>
+				<tr>
+					<th scope="col" style="color: red;">Cookies left after reject all cookies.</th>
+					<th scope="col">Days stored</th>
+					<th scope="col">Severity</th>
+				</tr>
+			</thead>
+			{% for c in cookies_a_r %}
+			<tbody>
+				<tr>
+					<td>{{ c }}</td>
+					<td>{{ cookies_a_r[c] }}</td>
+					<td>6</td>
+				</tr>
+			</tbody>
+			{% endfor %}
+			{% else %}
+			<thead>
+				<tr>
+					<th scope="col" style="color: greenyellow; text-align: center;">No cookies left after reject all cookies.</th>
+				</tr>
+			</thead>
+			{% endif %}
+		</table>
+		<table class="table caption-top">
 			{% if cookies_a_c %}
 			<thead>
 				<tr>
