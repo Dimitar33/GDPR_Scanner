@@ -2,3 +2,4 @@ Flask
 gunicorn
 Flask-SQLAlchemy
 bcrypt
+flask_login
