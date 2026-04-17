@@ -3,3 +3,4 @@ gunicorn
 Flask-SQLAlchemy
 bcrypt
 flask_login
+playwright
