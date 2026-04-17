@@ -4,6 +4,7 @@ from sqlalchemy import select
 from database.db import db
 from routes.userRoutes import userRoutes
 import bcrypt
+import os
 import json
 import bin.scanning as s
 from flask_login import login_user, current_user, LoginManager, login_required, logout_user
@@ -119,4 +120,5 @@ def delete(scan_id):
 
 ## Run the App
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
