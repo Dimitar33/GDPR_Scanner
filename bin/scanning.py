@@ -8,7 +8,7 @@ import lib.security_headers as sh
 
 def scanning(url):
     with sync_playwright() as pwr:
-        browser = pwr.chromium.launch(headless=False)
+        browser = pwr.chromium.launch(headless=True)
         context = browser.new_context()
         page = context.new_page()
 
@@ -71,7 +71,7 @@ def scanning(url):
 
 def scanAfterReject (url):
     with sync_playwright () as pwr:
-        browser = pwr.chromium.launch(headless=False)
+        browser = pwr.chromium.launch(headless=True)
         context = browser.new_context()
         page = context.new_page()
 
