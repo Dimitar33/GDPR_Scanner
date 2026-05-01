@@ -1,5 +1,4 @@
-from flask import Blueprint, Flask, render_template, request, redirect, flash, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Blueprint, render_template, request, redirect, flash, url_for
 from sqlalchemy import select
 from database.db import db
 import bcrypt
@@ -19,7 +18,7 @@ def login():
         if user and bcrypt.checkpw(request.form.get("password").encode('utf-8'), user.password):
             login_user(user)
             print(user, current_user)
-            return redirect(url_for("scan"))
+            return redirect(url_for("scanRoutes.scan"))
         
     return render_template("index.html")
 
@@ -35,12 +34,12 @@ def register():
             return redirect('/')
 
         salt = bcrypt.gensalt()
-        new_user = User(
+        update_user = User(
             email = request.form.get("email"), 
             password = bcrypt.hashpw(request.form.get("password").encode('utf-8'), salt)  # password hash + salt
         )
     
-        db.session.add(new_user)
+        db.session.add(update_user)
         db.session.commit()
 
         return redirect('/')
@@ -57,14 +56,14 @@ def userInfo():
 
         if button == "save": 
             
-            new_user = current_user
-            new_user.name = request.form.get("name")
-            new_user.surname = request.form.get("surname")
-            new_user.phone = request.form.get("phone")
-            new_user.city = request.form.get("city")
-            new_user.country = request.form.get("country")
+            update_user = current_user
+            update_user.name = request.form.get("name")
+            update_user.surname = request.form.get("surname")
+            update_user.phone = request.form.get("phone")
+            update_user.city = request.form.get("city")
+            update_user.country = request.form.get("country")
         
-            db.session.add(new_user)
+            db.session.add(update_user)
             db.session.commit()
             return render_template("userInfo.html")
         

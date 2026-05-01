@@ -6,6 +6,7 @@ import lib.decline_button_text as dbt
 import lib.privacy_policy as pp
 import lib.security_headers as sh
 
+
 def scanning(url):
     with sync_playwright() as pwr:
         browser = pwr.chromium.launch(headless=True)
@@ -16,7 +17,6 @@ def scanning(url):
         page.wait_for_timeout(3000)
 
         headers = response.headers
-
         security_headers = {}
 
         for h in headers:
@@ -25,7 +25,7 @@ def scanning(url):
                     security_headers[s] = sh.SECURITY_HEADERS[s]
 
         links = page.locator("a").all()
-        
+
         privacy = ""
 
         for link in links:
@@ -43,14 +43,22 @@ def scanning(url):
         for c in cookie:
             for n in cn.COOKIE_NAMES:
                 if c["name"].startswith(n):
-                    expires = datetime.fromtimestamp(c["expires"]) - datetime.now()
 
-                    cookies_b_c[cn.COOKIE_NAMES[n]] = expires.days
+                    expires = datetime.fromtimestamp(c["expires"]) - datetime.now()
+                    cookies_b_c[c["name"]] = {
+                        "description": cn.COOKIE_NAMES[n]["description"],
+                        "expires": expires.days,
+                        "severity": cn.COOKIE_NAMES[n]["severity"],
+                        "score": cn.COOKIE_NAMES[n]["score"],
+                    }
 
         buttons = page.locator("button").all()
         try:
             for b in buttons:
-                if any(word == b.inner_text().lower().strip() for word in cbt.CONSENT_BUTTON_TEXT):
+                if any(
+                    word == b.inner_text().lower().strip()
+                    for word in cbt.CONSENT_BUTTON_TEXT
+                ):
                     b.click()
                     page.wait_for_timeout(3000)
                     break
@@ -63,14 +71,20 @@ def scanning(url):
             for n in cn.COOKIE_NAMES:
                 if c["name"].startswith(n):
                     expires = datetime.fromtimestamp(c["expires"]) - datetime.now()
-                    cookies_a_c[cn.COOKIE_NAMES[n]] = expires.days
-                    
+                    cookies_a_c[c["name"]] = {
+                        "description": cn.COOKIE_NAMES[n]["description"],
+                        "expires": expires.days,
+                        "severity": cn.COOKIE_NAMES[n]["severity"],
+                        "score": cn.COOKIE_NAMES[n]["score"],
+                    }
+
         browser.close()
 
         return (cookies_b_c, cookies_a_c, privacy, security_headers)
 
-def scanAfterReject (url):
-    with sync_playwright () as pwr:
+
+def scanAfterReject(url):
+    with sync_playwright() as pwr:
         browser = pwr.chromium.launch(headless=True)
         context = browser.new_context()
         page = context.new_page()
@@ -83,7 +97,10 @@ def scanAfterReject (url):
 
         try:
             for b in buttons:
-                if any(word == b.inner_text().lower().strip() for word in dbt.DECLINE_BUTTON_TEXT):
+                if any(
+                    word == b.inner_text().lower().strip()
+                    for word in dbt.DECLINE_BUTTON_TEXT
+                ):
                     b.click()
                     page.wait_for_timeout(3000)
                     print("REJECT BUTTON")
@@ -92,7 +109,7 @@ def scanAfterReject (url):
                 else:
                     reject_button = "No reject button found!"
 
-        except():
+        except ():
             print("reject button not found!")
 
         cockies = context.cookies()
@@ -102,7 +119,12 @@ def scanAfterReject (url):
             for n in cn.COOKIE_NAMES:
                 if c["name"].startswith(n):
                     expires = datetime.fromtimestamp(c["expires"]) - datetime.now()
-                    cockies_a_r[cn.COOKIE_NAMES[n]] = expires.days
+                    cockies_a_r[c["name"]] = {
+                        "description": cn.COOKIE_NAMES[n]["description"],
+                        "expires": expires.days,
+                        "severity": cn.COOKIE_NAMES[n]["severity"],
+                        "score": cn.COOKIE_NAMES[n]["score"],
+                    }
 
         browser.close()
 

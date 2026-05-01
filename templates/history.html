@@ -13,6 +13,7 @@
 				<tr>
 					<th scope="col">Url</th>
 					<th scope="col">Date</th>
+					<th scope="col">Score</th>
 					<th scope="col">Actions</th>
 				</tr>
 			</thead>
@@ -21,6 +22,7 @@
 				<tr>
 					<td><a target="_blank" href={{s.url}}>{{ s.url | truncate(40)}}</a></td>
 					<td>{{ s.scan_date.strftime("%Y-%m-%d %H:%M") }}</td>
+					<td>{{ s.average_score }}</td>
 					<td>
 						<a href="/results/{{s.id}}" class="btn btn-primary btn-sm">Details</a> 
 						<a href="/delete/{{s.id}}" class="btn btn-danger btn-sm">Delete</a>

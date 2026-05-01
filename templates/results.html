@@ -20,24 +20,29 @@
 			{% if cookies_b_c %}
 			<thead>
 				<tr>
+					<th scope="col">Cookie name</th>
 					<th scope="col" style="color: red;">Cookies loaded without consent</th>
 					<th scope="col">Days stored</th>
 					<th scope="col">Severity</th>
+					<th scope="col">Score</th>
 				</tr>
 			</thead>
-			{% for c in cookies_b_c %}
+			{% for name, data in cookies_b_c.items() %}
 			<tbody>
 				<tr>
-					<td>{{ c }}</td>
-					<td>{{ cookies_b_c[c] }}</td>
-					<td>6</td>
+					<td>{{ name | truncate(20) }}</td>
+					<td>{{ data.description }}</td>
+					<td>{{ data.expires }}</td>
+					<td>{{ data.severity }}</td>
+					<td>{{ data.score }}</td>
 				</tr>
 			</tbody>
 			{% endfor %}
 			{% else %}
 			<thead>
 				<tr>
-					<th scope="col" style="color: greenyellow; text-align: center;">No cookies loaded without consent</th>
+					<th scope="col" style="color: greenyellow; text-align: center;">No cookies loaded without consent
+					</th>
 				</tr>
 			</thead>
 			{% endif %}
@@ -46,24 +51,29 @@
 			{% if cookies_a_r %}
 			<thead>
 				<tr>
+					<th scope="col">Cookie name</th>
 					<th scope="col" style="color: red;">Cookies left after reject all cookies</th>
 					<th scope="col">Days stored</th>
 					<th scope="col">Severity</th>
+					<th scope="col">Score</th>
 				</tr>
 			</thead>
-			{% for c in cookies_a_r %}
+			{% for name, data in cookies_a_r.items() %}
 			<tbody>
 				<tr>
-					<td>{{ c }}</td>
-					<td>{{ cookies_a_r[c] }}</td>
-					<td>6</td>
+					<td>{{ name | truncate(20) }}</td>
+					<td>{{ data.description }}</td>
+					<td>{{ data.expires }}</td>
+					<td>{{ data.severity }}</td>
+					<td>{{ data.score }}</td>
 				</tr>
 			</tbody>
 			{% endfor %}
 			{% else %}
 			<thead>
 				<tr>
-					<th scope="col" style="color: greenyellow; text-align: center;">No cookies left after reject all cookies</th>
+					<th scope="col" style="color: greenyellow; text-align: center;">No cookies left after reject all
+						cookies</th>
 				</tr>
 			</thead>
 			{% endif %}
@@ -72,17 +82,21 @@
 			{% if cookies_a_c %}
 			<thead>
 				<tr>
+					<th scope="col">Cookie name</th>
 					<th scope="col" style="color: orange;">Prechecked cookies</th>
 					<th scope="col">Days stored</th>
 					<th scope="col">Severity</th>
+					<th scope="col">Score</th>
 				</tr>
 			</thead>
-			{% for c in cookies_a_c %}
+			{% for name, data in cookies_a_c.items() %}
 			<tbody>
 				<tr>
-					<td>{{ c }}</td>
-					<td>{{ cookies_a_c[c] }}</td>
-					<td>6</td>
+					<td>{{ name | truncate(20) }}</td>
+					<td>{{ data.description }}</td>
+					<td>{{ data.expires }}</td>
+					<td>{{ data.severity }}</td>
+					<td>{{ data.score }}</td>
 				</tr>
 			</tbody>
 			{% endfor %}

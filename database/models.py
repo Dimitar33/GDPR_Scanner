@@ -25,5 +25,6 @@ class Scan(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     url = db.Column(db.String(2048), nullable=False)
+    average_score = db.Column(db.Integer, default=1)
     scan_date = db.Column(db.DateTime, default=datetime.now)
     result = db.Column(db.Text, nullable=False)

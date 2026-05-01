@@ -1,4 +1,4 @@
-/* Table container */
+
 .table {
     color: #555;
     background-color: rgba(0, 0, 0, 0.4);
@@ -8,7 +8,6 @@
     overflow: hidden;
 }
 
-/* Table header */
 .table thead {
     background: linear-gradient(90deg, #4e54c8a0, #8f94fb8a);
     color: rgba(255, 255, 255, 0.7);
@@ -16,18 +15,15 @@
     text-transform: uppercase;
 }
 
-/* Table body rows */
 .table tbody tr {
     background-color: rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s;
 }
 
-/* Hover effect */
 .table tbody tr:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-/* Table cells */
 .table th,
 .table td {
     padding: 12px 15px;
@@ -35,12 +31,10 @@
     vertical-align: middle;
 }
 
-/* Zebra stripes for better readability */
 .table tbody tr:nth-child(even) {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Caption styling */
 .table caption {
     caption-side: top;
     font-size: 1.2em;
@@ -49,7 +43,6 @@
     padding: 10px 0;
 }
 
-/* Optional: rounded top corners for the header row */
 .table thead tr:first-child th:first-child {
     border-top-left-radius: 10px;
 }
@@ -57,7 +50,6 @@
     border-top-right-radius: 10px;
 }
 
-/* Optional: badges or handles */
 td {
     font-weight: 500;
     color: rgba(255, 255, 255, 0.7);
